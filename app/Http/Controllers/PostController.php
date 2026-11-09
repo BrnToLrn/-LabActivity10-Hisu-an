@@ -19,7 +19,7 @@ class PostController extends Controller
             })
             ->orderByDesc('is_pinned')
             ->latest('published_at')
-            ->paginate(6) // Hisuan has 6 letters
+            ->paginate(10) // 10 per page (5 top, 5 bottom)
             ->withQueryString();
 
         $categories = Post::query()

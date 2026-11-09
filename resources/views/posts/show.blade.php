@@ -3,53 +3,57 @@
 @section('title', 'Barangay Bulletin – Purok Hisu-an')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="relative board-frame rounded-2xl p-4 sm:p-10 my-3 max-w-4xl mx-auto">
     <div class="mb-6">
-        <a href="{{ route('posts.index') }}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition">
-            &larr; Back to all announcements
+        <a href="{{ route('posts.index') }}" class="inline-flex items-center text-sm sm:text-base font-bold text-stone-900 bg-[#fdfaf5] hover:bg-white px-5 py-2.5 rounded-lg shadow-md border-2 border-stone-400 transition">
+            📌 &larr; Back to Bulletin Board
         </a>
     </div>
 
-    <article class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-6 sm:p-8 border-b border-slate-100">
-            <div class="flex flex-wrap items-center gap-2 mb-4 text-xs">
-                <span class="font-semibold px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100">
+    <div class="relative max-w-3xl mx-auto">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-20 text-3xl pin-head">
+            @if ($post->is_pinned)
+                <span>📌</span>
+            @else
+                <span>📍</span>
+            @endif
+        </div>
+
+        <article class="bg-[#fefdfa] border-2 border-stone-300 rounded-2xl p-6 sm:p-10 shadow-2xl relative">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b-2 border-stone-200">
+                <span class="font-bold px-3.5 py-1 bg-amber-100 text-amber-950 rounded-md border border-amber-300 text-xs sm:text-sm tracking-wide">
                     {{ $post->category }}
                 </span>
-                @if ($post->is_pinned)
-                    <span class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full">
-                        📌 Pinned Announcement
+
+                <div class="flex items-center space-x-2">
+                    @if ($post->is_pinned)
+                        <span class="bg-red-700 text-white font-black px-3 py-1 rounded text-xs shadow-xs tracking-wider">
+                            📌 OFFICIAL PINNED ADVISORY
+                        </span>
+                    @endif
+                    <span class="text-stone-600 text-xs sm:text-sm font-semibold">
+                        {{ $post->published_at ? $post->published_at->format('F d, Y \a\t h:i A') : 'Draft' }}
                     </span>
-                @endif
-                <span class="text-slate-400">
-                    Published {{ $post->published_at ? $post->published_at->format('F d, Y \a\t h:i A') : 'Draft' }}
-                </span>
+                </div>
             </div>
 
-            <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+            <h1 class="text-2xl sm:text-4xl font-black text-stone-950 tracking-tight leading-tight mb-6">
                 {{ $post->title }}
             </h1>
 
-            <div class="flex items-center justify-between text-xs sm:text-sm text-slate-500 pt-4 border-t border-slate-100">
-                <div>
-                    <span class="font-medium text-slate-700">Author ID: #{{ $post->author_id }}</span>
-                </div>
-                <div class="flex items-center space-x-1 font-medium">
-                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span>{{ $post->views }} views</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="p-6 sm:p-8">
-            <div class="prose max-w-none text-slate-700 leading-relaxed text-base whitespace-pre-line">
+            <div class="text-stone-900 text-base sm:text-lg leading-relaxed whitespace-pre-line mb-8 border-l-4 border-amber-600/70 pl-4 py-1">
                 {{ $post->body }}
             </div>
-        </div>
-    </article>
+
+            <div class="pt-4 border-t-2 border-stone-200 flex items-center justify-between text-xs sm:text-sm font-bold text-stone-700">
+                <span class="bg-stone-200/80 text-stone-900 px-3 py-1 rounded-md">
+                    Author ID: #{{ $post->author_id }}
+                </span>
+                <span class="bg-stone-100 text-stone-900 px-3 py-1 rounded-md border border-stone-300">
+                    👀 {{ $post->views }} Views
+                </span>
+            </div>
+        </article>
+    </div>
 </div>
 @endsection
-
