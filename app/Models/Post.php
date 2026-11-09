@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Post extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'author_id',
+        'title',
+        'category',
+        'body',
+        'is_published',
+        'is_pinned',
+        'published_at',
+        'views',
+    ];
+
+    protected $casts = [
+        'is_published' => 'boolean',
+        'is_pinned'    => 'boolean',
+        'published_at' => 'datetime',
+    ];
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(Author::class);
+    }
+}
